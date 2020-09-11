@@ -48,15 +48,17 @@ app.use(express.json())
 app.use(cors())
 app.use(helmet())
 app.use(compression())
-app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: SESSION_SECRET!,
-    store: new MongoStore({
-        url: mongoUrl!,
-        autoReconnect: true
-    })
-}));
+app.use(
+	session({
+		resave: true,
+		saveUninitialized: true,
+		secret: SESSION_SECRET!,
+		store: new MongoStore({
+			url: mongoUrl!,
+			autoReconnect: true,
+		}),
+	})
+)
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -66,6 +68,11 @@ app.get('/', function (req, res) {
 
 app.post('/login', userController.postLogin)
 app.post('/signup', userController.postSignup)
+app.get('/me', passportConfig.isAuthenticated, userController.getMe)
+app.get('/users/:id', passportConfig.isAuthenticated, userController.getUser)
+app.post('/logout', passportConfig.isAuthenticated, userController.logout)
+app.post('/follow/:id', passportConfig.isAuthenticated, userController.addFollow)
+app.delete('/follow/:id', passportConfig.isAuthenticated, userController.removeFollow)
 
 app.listen(port, function () {
 	console.log(`Example app listening on port ${port}!`)

@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 import validator from 'validator'
 
+const Schema = mongoose.Schema;
+
 export type UserDocument = mongoose.Document & {
 	email: string
 	password: string
@@ -11,6 +13,8 @@ export type UserDocument = mongoose.Document & {
 
 	facebook: string
 	tokens: AuthToken[]
+	followers: UserDocument[]
+	following: UserDocument[]
 	avatar: Buffer
 
 	comparePassword: comparePasswordFunction
@@ -26,7 +30,7 @@ export interface AuthToken {
 	kind: string
 }
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
 	{
 		email: {
 			type: String,
@@ -57,6 +61,8 @@ const userSchema = new mongoose.Schema(
 				}
 			},
 		},
+		followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+		following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 		avatar: {
 			type: Buffer,
 		},
