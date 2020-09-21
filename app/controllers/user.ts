@@ -36,12 +36,18 @@ export const postLogin = (req: Request, res: Response, next: NextFunction) => {
  */
 export const postSignup = async (
 	req: Request,
-	res: Response
+    res: Response,
+    next: NextFunction
 ) => {
     try {
         const user = new User(req.body)
         await user.save()
-        res.status(201).send({ user })
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err)
+            }
+            res.status(201).send({ user })
+        })
     } catch (e) {
         res.status(400).send(e)
     }
