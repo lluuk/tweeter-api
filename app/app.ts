@@ -16,6 +16,7 @@ import * as passportConfig from './config/passport'
 
 // Controllers (route handlers)
 import * as userController from './controllers/user'
+import * as tweetController from './controllers/tweet'
 
 const MongoStore = mongo(session)
 
@@ -71,8 +72,16 @@ app.post('/signup', userController.postSignup)
 app.get('/me', passportConfig.isAuthenticated, userController.getMe)
 app.get('/users/:id', passportConfig.isAuthenticated, userController.getUser)
 app.post('/logout', passportConfig.isAuthenticated, userController.logout)
+
 app.post('/follow/:id', passportConfig.isAuthenticated, userController.addFollow)
 app.delete('/follow/:id', passportConfig.isAuthenticated, userController.removeFollow)
+
+app.post('/tweet', passportConfig.isAuthenticated, tweetController.addTweet)
+app.delete('/tweet/:id', passportConfig.isAuthenticated, tweetController.removeTweet)
+app.delete('/tweet/:id', passportConfig.isAuthenticated, tweetController.getTweet)
+app.get('/tweet/:id', passportConfig.isAuthenticated, tweetController.getTweet)
+app.get('/tweets', passportConfig.isAuthenticated, tweetController.getTweets)
+app.patch('/tweet/:id', passportConfig.isAuthenticated, tweetController.updateTweet)
 
 app.listen(port, function () {
 	console.log(`Example app listening on port ${port}!`)

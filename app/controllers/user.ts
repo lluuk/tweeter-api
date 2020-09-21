@@ -1,10 +1,8 @@
-import crypto from 'crypto'
 import passport from 'passport'
 import { Request, Response, NextFunction } from 'express'
 import { IVerifyOptions } from 'passport-local'
-import { WriteError } from 'mongodb'
 
-import { User, UserDocument, AuthToken } from '../models/user'
+import { User, UserDocument } from '../models/user'
 
 import '../config/passport'
 

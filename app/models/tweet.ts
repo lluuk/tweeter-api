@@ -20,14 +20,20 @@ interface TweetComment {
 
 const tweetSchema = new Schema(
 	{
-		body: { type: String, default: '', trim: true, maxlength: 280 },
-		author: { type: Schema.Types.ObjectId, ref: 'User' },
+		body: {
+			type: String,
+			default: '',
+			trim: true,
+			maxlength: 280,
+			required: true,
+		},
+		author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 		favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 		comments: [
 			{
-				body: { type: String, default: '', maxlength: 280 },
-                author: { type: Schema.Types.ObjectId, ref: 'User' },
-                favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+				body: { type: String, default: '', maxlength: 280, required: true },
+				author: { type: Schema.Types.ObjectId, ref: 'User' },
+				favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 				createdAt: { type: Date, default: Date.now },
 			},
 		],
@@ -35,4 +41,4 @@ const tweetSchema = new Schema(
 	{ timestamps: true }
 )
 
-export const Tweet = mongoose.model<TweetDocument>('Tweer', tweetSchema)
+export const Tweet = mongoose.model<TweetDocument>('Tweet', tweetSchema)
