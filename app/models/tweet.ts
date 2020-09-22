@@ -12,6 +12,7 @@ export type TweetDocument = mongoose.Document & {
 }
 
 interface TweetComment {
+	id?: string
 	body: string
 	author: UserDocument
 	favorites: UserDocument[]

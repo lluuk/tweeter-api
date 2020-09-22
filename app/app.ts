@@ -83,6 +83,10 @@ app.get('/tweet/:id', passportConfig.isAuthenticated, tweetController.getTweet)
 app.get('/tweets', passportConfig.isAuthenticated, tweetController.getTweets)
 app.patch('/tweet/:id', passportConfig.isAuthenticated, tweetController.updateTweet)
 
+app.post('/tweet/:id/comment', passportConfig.isAuthenticated, tweetController.addTweetComment)
+app.delete('/tweet/:id/comment/:commentId', passportConfig.isAuthenticated, tweetController.removeTweetComment)
+app.patch('/tweet/:id/comment/:commentId', passportConfig.isAuthenticated, tweetController.updateTweetComment)
+
 app.listen(port, function () {
 	console.log(`Example app listening on port ${port}!`)
 })
